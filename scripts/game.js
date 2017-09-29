@@ -3,8 +3,9 @@ function game() {
 	$('<div/>').attr('id', 'content').appendTo('body');
 	$('<div/>').attr('id', 'game').appendTo('#content');
 	$('<div/>').attr('id', 'ball').appendTo('#game');
-	$('<div/>').attr('id', 'paddleA').appendTo('#game')
-	$('<div/>').attr('id', 'paddleB').appendTo('#game')
+	$('<div/>').attr('id', 'paddleA').appendTo('#game');
+	$('<div/>').attr('id', 'paddleB').appendTo('#game');
+	$('<div/>').attr('id', 'score').appendTo('#content');
 
 	var ball = {
 		speed: 3,
@@ -19,7 +20,7 @@ function game() {
 	var score = {
 		playerA: 0,
 		playerB: 0
-	};
+	}
 
 	var pA = {
 		speed: 3,
@@ -27,7 +28,10 @@ function game() {
 		x2: $('#paddleA').position().left + $('#paddleA').width(),
 		y1: $('#paddleA').position().top,
 		y2: $('#paddleA').position().top + $('#paddleA').height()
-
+		// update: function () {
+		// 	this.y1 = $("#paddleA").position.top;
+		// 	this.y2 = this.y1 + $("paddleA").height()
+		// }
 	};
 
 	var pB = {
@@ -36,7 +40,10 @@ function game() {
 		x2: $('#paddleB').position().left + $('#paddleB').width(),
 		y1: $('#paddleB').position().top,
 		y2: $('#paddleB').position().top + $('#paddleB').height()
-
+		// update: function () {
+		// 	this.y1 = $("#paddleB").position.top;
+		// 	this.y2 = this.y1 + $("paddleB").height()
+		// }
 	};
 
 	console.log(pA, pB);
@@ -58,21 +65,36 @@ function game() {
 		// Check collision to the bottom border and change the moving orientation on Y axis
 		if (ball.y + ball.speed * ball.directionY > (gameHeight - parseInt($("#ball").height()))) {
 			ball.directionY = -1
+
 		}
 
 		// Check collision to the top border and change the moving orientation on Y axis
 		if (ball.y + ball.speed * ball.directionY < 0) {
 			ball.directionY = 1
+
+			console.log(score)
 		}
 
 		// Check collision to the left border and change the moving orientation on X axis
 		if (ball.x + ball.speed * ball.directionX > (gameWidth - parseInt($("#ball").width()))) {
 			ball.directionX = -1
+			ball.x = 290;
+			ball.y = 140;
+			pauseBall = true;
+			score.pB = score.pB + 1
+			$("#ball").animate({ "left": ball.x, "top": ball.y }, 2000, function () { pauseBall = false; });
+			return;
 		}
 
 		// Check collision to the right border and change the moving orientation on X axis
 		if (ball.x + ball.speed * ball.directionX < 0) {
+			score.pA = score.pA + 1
 			ball.directionX = 1
+			ball.x = 290;
+			ball.y = 140;
+			pauseBall = true;
+			score.pB = score.pB + 1
+			$("#ball").animate({ "left": ball.x, "top": ball.y }, 2000, function () { pauseBall = false; });
 		}
 
 		if (ball.x + ball.speed * ball.directionX < pA.x2 &&
@@ -95,7 +117,7 @@ function game() {
 
 
 	};
-
+	var paddleA = $('paddleA');
 	var paddleB = $('#paddleB');
 	var directions = {};
 	var speed = 4;
@@ -113,26 +135,24 @@ function game() {
 	}
 
 	function movepaddleB(e) {
-		for (var i in directions) 
+		for (var i in directions)
 
 			if (paddleB.position().top > 0 && i == 38) {
 				paddleB.css("top", (paddleB.position().top - speed) + "px");
 			}
 
-			if (paddleB.position().top < ($("#game").height() - paddleB.height()) && i == 40) {
-				paddleB.css("top", (paddleB.position().top + speed) + "px");
-			}
-		
-
+		if (paddleB.position().top < ($("#game").height() - paddleB.height()) && i == 40) {
+			paddleB.css("top", (paddleB.position().top + speed) + "px");
+		}
 
 	}
-			var paddleA = $('#paddleA');
-			var directions = {};
-			var speed = 4;
+	var paddleA = $('#paddleA');
+	var directions = {};
+	var speed = 4;
 
-			$('html').keyup(stop).keydown(charMovement);
+	$('html').keyup(stop).keydown(charMovement);
 
-				function charMovement(e) {
+	function charMovement(e) {
 		directions[e.which] = true;
 		console.log(directions)
 	}
@@ -142,16 +162,14 @@ function game() {
 		console.log(directions)
 	}
 
-		function movepaddleA(e){
-			for (var i in directions)
+	function movepaddleA(e) {
+		for (var i in directions)
 
-			if(paddleA.position().top > 0 && i == 87)
-			{
+			if (paddleA.position().top > 0 && i == 87) {
 				paddleA.css("top", (paddleA.position().top - speed) + "px");
 			}
-			if(paddleA.position().top < ($("#game").width() - paddleA.width()) && i == 83)
-			{
-				paddleA.css("top", (paddleA.position().top + speed) + "px");
-	}
+		if (paddleA.position().top < ($("#game").height() - paddleA.height()) && i == 83) {
+			paddleA.css("top", (paddleA.position().top + speed) + "px");
 		}
+	}
 }

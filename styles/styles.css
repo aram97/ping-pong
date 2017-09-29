@@ -19,7 +19,7 @@ button
 }
 
 #ball {
-  background: grey;
+  background: black;
   position: absolute;
   width: 20px;
   height: 20px;
@@ -31,7 +31,7 @@ button
 
 #paddleA{
 
-  background: grey;
+  background: black;
   position: absolute;
   width: 15px;
   height: 100px;
@@ -42,12 +42,23 @@ button
 }
 
 #paddleB {
-  background:grey;
+  background:black;
   position: absolute;
   width: 15px;
   height: 100px;
   left: 550px;
-  top: 90px;
+  top:90px;
+  border-radius: 10px;
+  border: 1px solid black;
+}
+
+#score {
+  background:white;
+  position: absolute;
+  width: 80px;
+  height: 30px;
+  left: 690px;
+  top: 0px;
   border-radius: 10px;
   border: 1px solid black;
 }
